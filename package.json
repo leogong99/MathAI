@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/index.js",
+    "start": "PORT=8080 node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "jest --coverage"
   },
