@@ -1,6 +1,7 @@
 const express = require('express');
 const OpenAI = require('openai');
 const upload = require('../middleware/upload');
+const verifyToken = require('../middleware/checkAuth');
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ const SYSTEM_PROMPT = `You are Math Buddy, a friendly and encouraging math tutor
   - Provide visual examples when possible using ASCII art
   - Celebrate success and encourage learning from mistakes`;
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   if (!openai.apiKey) {
     return res.status(500).json({
       error: "OpenAI API key not configured"
@@ -48,7 +49,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/with-image', upload.single('image'), async (req, res) => {
+router.post('/with-image', verifyToken, upload.single('image'), async (req, res) => {
   console.log('Received image request');
   console.log('File:', req.file);
   console.log('Message:', req.body.message);
